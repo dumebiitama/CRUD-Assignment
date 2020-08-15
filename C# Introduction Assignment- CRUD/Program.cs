@@ -15,7 +15,10 @@ namespace C__Introduction_Assignment__CRUD
                 Console.WriteLine("\n\nProgram options ::");
                 Console.WriteLine("type \"1\" and press the enter key to add data to the list");
                 Console.WriteLine("type \"2\" and press the enter key to display content of the list");
-                Console.WriteLine("type \"3\" and press the enter key to exit the program\n\n");
+                Console.WriteLine("type \"3\" and press the enter key to edit an item in the list");
+                Console.WriteLine("type \"Y\" and press the enter key to display content of the list");
+                Console.WriteLine("type \"Z\" and press the enter key to display content of the list");
+                Console.WriteLine("type \"6\" and press the enter key to exit the program\n\n");
 
                 string selection = Console.ReadLine().Trim();
                 if(selection.Equals("1")){
@@ -23,6 +26,12 @@ namespace C__Introduction_Assignment__CRUD
                 } else if(selection.Equals("2")){
                     displayList(listOfData);
                 } else if(selection.Equals("3")){
+                    editItemInList(listOfData, maxSize);
+                } else if(selection.Equals("4")){
+
+                } else if(selection.Equals("5")){
+
+                } else if(selection.Equals("6")){
                     exit = true;
                 } else {
                     Console.WriteLine("Invalid program option. Make correct selection.");
@@ -48,6 +57,32 @@ namespace C__Introduction_Assignment__CRUD
             for (int i = 0; i < list.Count; i++){
                 Console.WriteLine("item " + (i+1) + " is " + (string)list[i]);
             }    
+        }
+
+        static void editItemInList(ArrayList list, int maxSize){
+            Console.WriteLine("Enter item number to be edited. \nNote: item number should be within the range: 1 to " + (maxSize));
+            string input = Console.ReadLine().Trim();
+            try
+            {
+                int itemNumber = Int32.Parse(input);
+                if(itemNumber > maxSize || itemNumber < 1){
+                    Console.WriteLine("\n\nError: Item number should be within the range: 1 to " + (maxSize));
+                    return;
+                }
+
+                Console.WriteLine("Enter data " + (itemNumber));
+                string newData = Console.ReadLine().Trim();
+                int dataIndex = itemNumber - 1; 
+                string previousData = (string)list[dataIndex];
+                list.RemoveAt(dataIndex);
+                list.Insert(dataIndex, newData);
+                Console.WriteLine(" item " + (itemNumber) + " has been edited from " + (previousData) + " to " + (newData));
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("\n\n" + e.Message);
+                Console.WriteLine("Error: " + input + " cannot be converted to an integer");
+            }
         }
     }
 }
