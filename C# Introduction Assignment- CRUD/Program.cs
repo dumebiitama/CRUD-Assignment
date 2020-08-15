@@ -16,8 +16,8 @@ namespace C__Introduction_Assignment__CRUD
                 Console.WriteLine("type \"1\" and press the enter key to add data to the list");
                 Console.WriteLine("type \"2\" and press the enter key to display content of the list");
                 Console.WriteLine("type \"3\" and press the enter key to edit an item in the list");
-                Console.WriteLine("type \"Y\" and press the enter key to display content of the list");
-                Console.WriteLine("type \"Z\" and press the enter key to display content of the list");
+                Console.WriteLine("type \"4\" and press the enter key to delete an item in the list");
+                Console.WriteLine("type \"5\" and press the enter key to display content of the list");
                 Console.WriteLine("type \"6\" and press the enter key to exit the program\n\n");
 
                 string selection = Console.ReadLine().Trim();
@@ -28,7 +28,7 @@ namespace C__Introduction_Assignment__CRUD
                 } else if(selection.Equals("3")){
                     editItemInList(listOfData, maxSize);
                 } else if(selection.Equals("4")){
-
+                    deleteItemInList(listOfData, maxSize);
                 } else if(selection.Equals("5")){
 
                 } else if(selection.Equals("6")){
@@ -70,13 +70,45 @@ namespace C__Introduction_Assignment__CRUD
                     return;
                 }
 
+                if(itemNumber > list.Count){
+                    Console.WriteLine("\n\nAn edit cannot be performed. The list contains only " + (list.Count) + " items");
+                    return;
+                }
+
                 Console.WriteLine("Enter data " + (itemNumber));
                 string newData = Console.ReadLine().Trim();
                 int dataIndex = itemNumber - 1; 
                 string previousData = (string)list[dataIndex];
                 list.RemoveAt(dataIndex);
                 list.Insert(dataIndex, newData);
-                Console.WriteLine(" item " + (itemNumber) + " has been edited from " + (previousData) + " to " + (newData));
+                Console.WriteLine("Item " + (itemNumber) + " has been edited from " + (previousData) + " to " + (newData));
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("\n\n" + e.Message);
+                Console.WriteLine("Error: " + input + " cannot be converted to an integer");
+            }
+        }
+
+        static void deleteItemInList(ArrayList list, int maxSize){
+            Console.WriteLine("Enter item number to be deleted. \nNote: item number should be within the range: 1 to " + (maxSize));
+            string input = Console.ReadLine().Trim();
+            try
+            {
+                int itemNumber = Int32.Parse(input);
+                if(itemNumber > maxSize || itemNumber < 1){
+                    Console.WriteLine("\n\nError: Item number should be within the range: 1 to " + (maxSize));
+                    return;
+                }
+
+                if(itemNumber > list.Count){
+                    Console.WriteLine("\n\nAn delete cannot be performed. The list contains only " + (list.Count) + " items");
+                    return;
+                }
+
+                int dataIndex = itemNumber - 1; 
+                list.RemoveAt(dataIndex);
+                Console.WriteLine(" item " + (itemNumber) + " has been deleted");
             }
             catch (FormatException e)
             {
